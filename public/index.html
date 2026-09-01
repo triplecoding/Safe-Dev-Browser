@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dev Browser Safe</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="mark" aria-hidden="true">DB</div>
+          <div>
+            <h1>Dev Browser Safe</h1>
+            <p>Local preview, runtime signals, and checks for agent-built web apps.</p>
+          </div>
+        </div>
+        <div class="status" id="serverStatus">Connecting...</div>
+      </header>
+
+      <main class="workspace">
+        <section class="browser-pane" aria-label="Preview browser">
+          <div class="addressbar">
+            <button class="icon-button" id="backButton" title="Back" aria-label="Back">‹</button>
+            <button class="icon-button" id="forwardButton" title="Forward" aria-label="Forward">›</button>
+            <button class="icon-button" id="reloadButton" title="Reload" aria-label="Reload">↻</button>
+            <input id="urlInput" aria-label="Preview URL" value="http://localhost:3000" spellcheck="false" />
+            <button id="openButton">Open</button>
+            <button id="checkButton">Run Checks</button>
+          </div>
+
+          <div class="toolrow">
+            <div class="segmented" role="group" aria-label="Viewport preset">
+              <button class="preset active" data-width="100%" data-height="100%">Desktop</button>
+              <button class="preset" data-width="390" data-height="844">Phone</button>
+              <button class="preset" data-width="768" data-height="1024">Tablet</button>
+              <button class="preset" data-width="1440" data-height="900">Wide</button>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="autoRefresh" />
+              <span>Auto refresh</span>
+            </label>
+            <label class="toggle">
+              <input type="checkbox" id="fitViewport" checked />
+              <span>Fit</span>
+            </label>
+            <select id="zoomSelect" aria-label="Preview zoom">
+              <option value="1">100%</option>
+              <option value="0.9">90%</option>
+              <option value="0.75">75%</option>
+              <option value="0.5">50%</option>
+            </select>
+          </div>
+
+          <div class="preview-shell">
+            <div class="preview-frame" id="previewFrame">
+              <iframe id="preview" title="Project preview" sandbox="allow-same-origin allow-scripts allow-forms allow-modals allow-downloads allow-popups"></iframe>
+            </div>
+          </div>
+        </section>
+
+        <aside class="inspector" aria-label="Inspector">
+          <div class="tabs" role="tablist" aria-label="Inspector tabs">
+            <button class="tab active" data-tab="signals">Signals</button>
+            <button class="tab" data-tab="checks">Checks</button>
+            <button class="tab" data-tab="setup">Setup</button>
+            <button class="tab" data-tab="report">Report</button>
+          </div>
+
+          <section class="panel active" id="signalsPanel">
+            <div class="panel-head">
+              <h2>Live Signals</h2>
+              <button class="small" id="clearEvents">Clear</button>
+            </div>
+            <div class="counters">
+              <div><strong id="errorCount">0</strong><span>Errors</span></div>
+              <div><strong id="warnCount">0</strong><span>Warnings</span></div>
+              <div><strong id="networkCount">0</strong><span>Network</span></div>
+            </div>
+            <div class="event-list" id="eventList" aria-live="polite"></div>
+          </section>
+
+          <section class="panel" id="checksPanel">
+            <div class="panel-head">
+              <h2>Quality Checks</h2>
+              <span id="checkState">Idle</span>
+            </div>
+            <div id="checkList" class="check-list"></div>
+          </section>
+
+          <section class="panel" id="setupPanel">
+            <h2>Project Bridge</h2>
+            <p class="muted">Add this script to a local dev page to stream console, runtime, network, and page-load signals here.</p>
+            <pre><code>&lt;script src="http://127.0.0.1:4577/agent-bridge.js"&gt;&lt;/script&gt;</code></pre>
+            <button class="small" id="copyBridge">Copy Bridge Tag</button>
+            <h2>Safety Model</h2>
+            <ul class="plain">
+              <li>Runs locally on 127.0.0.1.</li>
+              <li>Remote URL checks are blocked unless started with ALLOW_REMOTE=1.</li>
+              <li>The preview uses an iframe sandbox.</li>
+              <li>Bridge events are kept in memory only.</li>
+            </ul>
+          </section>
+
+          <section class="panel" id="reportPanel">
+            <div class="panel-head">
+              <h2>Build Notes</h2>
+              <button class="small" id="exportReport">Export</button>
+            </div>
+            <textarea id="notes" placeholder="What changed, what failed, what needs another pass..."></textarea>
+            <div class="report" id="reportOutput"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

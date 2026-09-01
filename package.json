@@ -1,0 +1,19 @@
+{
+  "name": "dev-browser-safe",
+  "version": "1.0.0",
+  "description": "A local-first dev browser dashboard for coding agents and web builders.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "dev-browser",
+    "codex",
+    "claude-code",
+    "agent-tools",
+    "local-first"
+  ],
+  "license": "MIT"
+}
